@@ -32,7 +32,7 @@ export class SimpleBot {
       // Initial state
       case ConversationStates.INITIAL:
         // Ask about the city of the customer  TODO store city
-        this.sender.sendButtonsMessage(MessageTemplates.city(), ["Cities.MED", "Cities.BOG"])
+        this.sender.sendButtonsMessage(MessageTemplates.city(), [Cities.MED, Cities.BOG])
         // Advance to the motive state
         this.jumpToState(ConversationStates.MOTIVE)
         break;
@@ -44,7 +44,7 @@ export class SimpleBot {
           this.jumpToState(ConversationStates.APPO);
         } else {
           // Ask about the motive: the user either wants information or to set up an appointment
-          this.sender.sendButtonsMessage("¿Qué deseas? ", ["Motives.INFO", "Motives.APPO"])
+          this.sender.sendButtonsMessage("¿Qué deseas? ", [Motives.INFO, Motives.APPO])
         }
         break;
       case ConversationStates.INFO:
