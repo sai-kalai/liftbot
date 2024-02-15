@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "strict": true,
+    "baseUrl": ".", // This sets the base directory to the root of your project
+    "paths": {
+      "@messaging/*": ["src/messaging/*"], // This sets an alias for your messaging directory
+      "@src/*": ["src/*"], // This sets an alias for your messaging directory
+      "@media/*": ["media/*"]
+    }
+    // ... other options ...
+  }
+}
+
