@@ -46,10 +46,20 @@ export async function httpPost(
         console.log("Post request sent.");
         console.log("   url: ", url);
         console.log("   status code: ", response.status)
+        console.log("   body: ", response.data)
         return response
     } catch (error) {
-        console.error("Error making API request: ", error)
-        throw error
+        if (axios.isAxiosError(error)) {
+            // Handle Axios-specific error
+            console.error("Axios error occurred:", error.message);
+            if (error.response) {
+                console.error("Server responded with status:", error.response.status);
+                console.error("Response data:", error.response.data);
+            }
+        } else {
+            // Handle generic errors
+            console.error("Error making API request:", error);
+        }
     }
 }
 

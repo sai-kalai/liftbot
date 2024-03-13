@@ -15,6 +15,8 @@ export class MessageTemplates {
         }
         return "Printing all message templates: \n" + messages.join('\n ------------- \n');
     }
+  static motive(): string { return "¿Qué deseas?"; }
+  static info(): string {return "¿Qué procedimiento te interesa?"}
 
   static city(): string {
     return `Hola, ¿cómo estás? Mi nombre es Laura y soy la persona encargada de ayudarte 👩🏻.

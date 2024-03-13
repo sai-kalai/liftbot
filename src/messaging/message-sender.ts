@@ -4,9 +4,9 @@ import 'tsconfig-paths/register';
 // Imports dependencies and set up http server
 
 import { phoneIdEndpointEdges, httpPost } from '@src/http/http';
-
+import * as model from '@src/model/model';
 const defaultPhoneNumber = process.env.RECIPIENT_WAID as string;
-
+import { ButtonsList, Button, ButtonTypes } from '@src/model/buttons';
 
 export class MessageSender {
   dataPayload: Record<string, string>;
@@ -43,7 +43,7 @@ export class MessageSender {
     httpPost(phoneIdEndpointEdges.MESSAGES, this.dataPayload);
   }
 
-  sendButtonsMessage(msg: string, options: string[]) {
+  sendButtonsMessage(msg: string, options: ButtonsList) {
     console.log("Sending buttons message: ", msg, "Options: ", options);
     const dataPayload = this.dataPayload;
     Object.assign(dataPayload,
@@ -55,12 +55,12 @@ export class MessageSender {
             "text": msg
           },
           "action": {
-            "buttons": options.map((option) => {
+            "buttons": options.buttons.map((option) => {
               return {
                 "type": "reply",
                 "reply": {
-                  "id": option,
-                  "title": option
+                  "id": option.id,
+                  "title": option.text
                 }
               }
 
