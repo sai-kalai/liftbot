@@ -40,8 +40,8 @@ export enum ProcedureIDs {
  * @property id - A unique identifier for the button, used for tracking interactions.
  */
 export class Button {
-    public text?: string;
-    public id?: string;
+    public text: string;
+    public id: string;
 
     /**
      * Creates a new Button instance.
@@ -66,7 +66,7 @@ export class Button {
 export class ButtonsList {
 
     public static MOTIVE: Button[] = [
-        new Button("Recibir información sobre los tratamientos", MotiveIDs.INFO),
+        new Button("Recibir información", MotiveIDs.INFO),
         new Button("Agendar una cita", MotiveIDs.APPO),
     ];
 
@@ -82,7 +82,7 @@ export class ButtonsList {
     ];
 
     public type: ButtonTypes = ButtonTypes.DEFAULT;
-    public buttons: Button[] = [new Button("", ""),];
+    public buttons: Button[] = [new Button("Default", "def"),];
 
     /**
      * Creates a new ButtonsList instance.

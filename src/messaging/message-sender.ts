@@ -44,7 +44,7 @@ export class MessageSender {
   }
 
   sendButtonsMessage(msg: string, options: ButtonsList) {
-    console.log("Sending buttons message: ", msg, "Options: ", options);
+    console.log("Sending buttons message: ", msg, "Options: ", options.buttons);
     const dataPayload = this.dataPayload;
     Object.assign(dataPayload,
       {
@@ -77,5 +77,4 @@ export class MessageSender {
 
 
 const messageSender = new MessageSender(defaultPhoneNumber)
-
-messageSender.sendTextMessage("hola")
+messageSender.sendTextMessage("Hola Mundo")

@@ -14,8 +14,7 @@ import bodyParser from 'body-parser';
 
 import { MessageSender } from '@messaging/message-sender';
 import { SimpleBot } from '@src/bots/simple'
-import { Message } from '@src/model/model';
-import { from } from 'form-data';
+import { ButtonsMessage, Message } from '@src/model/model';
 const PORT = process.env.PORT || 1337;
 console.log(`Port obtained from .env: ${PORT} (if undefined, will default to 1337)`);
 const app = express();
@@ -27,36 +26,46 @@ const bots: Record<string, SimpleBot> = {}
 
 function verifyRequest(req: Request): Message | undefined {
   // Verifies that the post request constitutes a valid incoming message, and returns a Message object with the important attributes.
-  if (req.body.object) {
-    const entry = req.body.entry?.[0];
-    const change = entry?.changes?.[0];
-    const message = change?.value?.messages?.[0];
-    if (message) {
-      const fromNumber = message.from;
-      let messageBody = message.text?.body;
-      const buttonReplyID = message.interactive?.button_reply.id;
-      if (buttonReplyID) {
-        messageBody = buttonReplyID
-      }
-      console.log(
-        `Message webhook triggered:From whatsapp number: ${fromNumber}
+  if (!req.body.object) return;
+  const entry = req.body.entry?.[0];
+  const change = entry?.changes?.[0];
+  const message = change?.value?.messages?.[0];
+  if (!message) return;
+  const fromNumber = message.from;
+  const messageID = message.id;
+  const messageBody = message.text?.body;
+  const buttonReply = message.interactive?.button_reply;
+  const buttonReplyID = buttonReply?.id;
+  const buttonReplyText = buttonReply?.title
+  console.log(
+    `Message webhook triggered:From whatsapp number: ${fromNumber}
 Text content: ${messageBody}`);
-      console.log("Full content: ", JSON.stringify(req.body, null, 4));
-      const theMessage: Message = {
-        senderNumber: fromNumber,
-        textContent: messageBody,
-        buttonReplyID: buttonReplyID
-      }
-      return theMessage
-    } else { return }
-  } else { return }
+  // console.log("Full content: ", JSON.stringify(req.body, null, 4));
+  if (buttonReply) {
+    const theMessage: ButtonsMessage = {
+      type: "buttons",
+      senderNumber: fromNumber,
+      textContent: buttonReplyText,
+      buttonReplyID: buttonReplyID
+    }
+    console.log("Received button reply message: ", theMessage);
+    return theMessage;
+  } else {
+    const theMessage: Message = {
+      type: "text",
+      senderNumber: fromNumber,
+      textContent: messageBody,
+    }
+    console.log("Received text message: ", theMessage);
+    return theMessage;
+  }
 }
 
 // Accepts POST requests at /webhook endpoint
 app.post("/webhook", (req: Request, res: Response) => {
   console.log("received HTTP POST at /webhook");
 
-  let message = verifyRequest(req);
+  const message = verifyRequest(req);
 
   if (!message) {res.sendStatus(404); return}
   // Assuming from_number is extracted from the request (req) and properly declared
@@ -65,9 +74,7 @@ app.post("/webhook", (req: Request, res: Response) => {
   if (fromNumber in bots) {
     bot = bots[fromNumber];
   } else {
-    bot = new SimpleBot(
-      new MessageSender(fromNumber)
-    );
+    bot = new SimpleBot(new MessageSender(fromNumber));
     bots[fromNumber] = bot
   }
   bot.handleMessage(message);

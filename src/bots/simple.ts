@@ -33,7 +33,7 @@ export class SimpleBot {
     console.log("Bot is handling message: ", message)
 
     if (message.type === "text") { this.handleTextMessage(message) }
-    else if (message.type === "buttons") { this.handleButtonsMessage(message)};
+    else if (message.type === "buttons") { this.handleButtonsMessage(message)}
   }
 
   //  Buttons messages are used to obtain information from the user.
@@ -81,6 +81,7 @@ export class SimpleBot {
     // Handles reception of normal text messages
     // At conversation onset, simply sends greeting and sends button message.
 
+    console.log("Bot is handling text message: ", message)
     switch (this.conversationState) {
       // Initial state
       case ConversationStates.CITY:
