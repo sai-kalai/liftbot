@@ -11,6 +11,7 @@ export enum ButtonTypes {
     MOTIVE = "motive",
     CITY = "city",
     PROCEDURE = "procedure",
+    APPO = "appo",
     DEFAULT = "default"
 }
 
@@ -29,6 +30,11 @@ export enum ProcedureIDs {
     LIFT = "lift",
     LAMI = "lami",
     DEPI = "depi"
+}
+
+export enum AppointmentLocationIDs {
+    ONSITE = "onsite",
+    DOMICILE = "domicile"
 }
 
 /**
@@ -81,6 +87,11 @@ export class ButtonsList {
         new Button("Depilación", ProcedureIDs.DEPI),
     ];
 
+    public static APPO: Button[] = [
+        new Button("En el local", AppointmentLocationIDs.ONSITE),
+        new Button("Atención a domicilio", AppointmentLocationIDs.DOMICILE),
+    ];
+
     public type: ButtonTypes = ButtonTypes.DEFAULT;
     public buttons: Button[] = [new Button("Default", "def"),];
 
@@ -100,6 +111,8 @@ export class ButtonsList {
             case ButtonTypes.PROCEDURE:
                 this.buttons = ButtonsList.PROCEDURE;
                 break;
+            case ButtonTypes.APPO:
+                this.buttons = ButtonsList.APPO;
         }
     }
 }

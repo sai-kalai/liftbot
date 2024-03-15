@@ -1,9 +1,8 @@
 import "tsconfig-paths/register";
 import * as fs from "fs";
-import * as path from 'path';
 import FormData from "form-data";
 
-import { phoneIdEndpointEdges, httpPost, httpDelete } from "@src/http/http";
+import { phoneIdEndpointEdges, httpPost } from "@src/http/http";
 
 enum MediaTypes {
     JPG = "image/jpeg",
@@ -35,7 +34,7 @@ export async function uploadMediaFile(filePath: string) {
     formData.append("file", media, { contentType: mediaType });
 
     const response = await httpPost(phoneIdEndpointEdges.MEDIA, formData)
-    const mediaID = response.data["id"];
+    const mediaID = response?.data["id"];
 
     storeMediaInfo(filePath.split("/").pop() as string, mediaID);
     console.log("Successfully uploaded media: ", filePath)
@@ -43,13 +42,19 @@ export async function uploadMediaFile(filePath: string) {
 
 }
 
-export async function deleteMediaFile() {
-
-}
-
 
 // Keeping track of media uploaded and deleted to the server
 export const mediaFilePath = "media/media-data.json";  // JSON file used to keep track of the media uploaded
+
+export function getFileMediaID(fileName: string): string {
+    if (fs.existsSync(mediaFilePath)) {
+        const rawData = fs.readFileSync(mediaFilePath, "utf8");
+        const mediaData: Record<string, string> = JSON.parse(rawData);
+        return mediaData[fileName];
+    } else {console.log("File not found: ", fileName); return "";}
+
+}
+
 function storeMediaInfo(fileName: string, mediaID: string): void {
     let mediaData: Record<string, string> = {}
 

@@ -1,4 +1,4 @@
-
+import * as fs from 'fs';
 
 import { MessageTemplates } from '@messaging/message-templates';
 import { MessageSender } from '@messaging/message-sender';
@@ -6,6 +6,7 @@ import * as model from '@src/model/model';
 import * as buttons from '@src/model/buttons';
 import {ConversationStates} from '@src/model/model';
 import { ButtonTypes, ButtonsList } from '@src/model/buttons';
+import { getFileMediaID } from '@src/media/media';
 
 
 export class SimpleBot {
@@ -45,7 +46,7 @@ export class SimpleBot {
     switch (this.conversationState) {
       // Initial state
       case ConversationStates.CITY:
-        this.city = message.textContent;  // Store city
+        this.city = message.buttonReplyID;  // Store city ID
         this.jumpToState(ConversationStates.MOTIVE);  // Change the bot's state
         this.sender.sendButtonsMessage(  // send the next buttons message
           MessageTemplates.motive(),
@@ -60,16 +61,39 @@ export class SimpleBot {
             MessageTemplates.info(),
             new ButtonsList(ButtonTypes.PROCEDURE)
           );
-        } else if (message.buttonReplyID === buttons.MotiveIDs.APPO) {
+        } else if (message.buttonReplyID === buttons.MotiveIDs.APPO) {  // If client wants to set up an appointment
           this.jumpToState(ConversationStates.APPO);
-
+          if (this.city === buttons.CityIDs.MED) {  // If medellin, give the option to choose between domi and on site
+            this.sender.sendButtonsMessage(
+              MessageTemplates.appointmentLocation(),
+              new ButtonsList(ButtonTypes.APPO)
+            );
+          } else if (this.city === buttons.CityIDs.BOG) {
+            this.sender.sendTextMessage(MessageTemplates.setupAppointment())
+          }
         }
         break;
-      case ConversationStates.INFO:
+
+      case ConversationStates.INFO: {
         console.log("Handling info state")
+        const procedureID = message.buttonReplyID as buttons.ProcedureIDs;
+        const fileName = `${procedureID}_${this.city}.jpeg`;
+        console.log("File name: ", fileName);
+        const mediaID = getFileMediaID(fileName);
+        console.log("Media ID: ", mediaID);
+        this.sender.sendTextMessage(
+          MessageTemplates.procedureInfo(procedureID),
+          mediaID
+        )
         break;
+      }
       case ConversationStates.APPO:
         console.log("Handling appo state")
+        if (message.buttonReplyID === buttons.AppointmentLocationIDs.DOMICILE) {
+          this.sender.sendTextMessage(MessageTemplates.setupAppointment());
+        } else if (message.buttonReplyID === buttons.AppointmentLocationIDs.ONSITE) {
+          this.sender.sendTextMessage(MessageTemplates.address());
+        }
         break;
       default:
         this.sender.sendTextMessage("Default response")

@@ -3,6 +3,8 @@
 //  Message templates are stored exclusively here.
 //*
 
+import { ProcedureIDs } from "@src/model/buttons";
+
 export class MessageTemplates {
   static showAllMessages(): string {
         const messages: string[] = [];
@@ -22,6 +24,9 @@ export class MessageTemplates {
     return `Hola, ¿cómo estás? Mi nombre es Laura y soy la persona encargada de ayudarte 👩🏻.
     ¿En qué ciudad te encuentras?`
   }
+  static appointmentLocation(): string {
+    return "¿Deseas que la cita sea en el local o a domicilio?";
+  }
   // Requesting information for setting up an appointment
   static setupAppointment(): string {
     return `Por favor déjanos estos datos para agendar tu cita 🧏🏻‍♀️, recuerda que si estás por fuera de Medellín tiene un costo adicional de $10.000.
@@ -31,22 +36,24 @@ export class MessageTemplates {
 - Dirección completa:
 - Hora tentativa y fecha:
 - Nombre y número de contacto:
-- Servicio(s):
 - # de personas:
+- Servicio(s) que recibirá cada persona:
 
-**POR FAVOR ENVÍA EN UN MISMO TEXTO TODOS ESTOS DATOS PARA CONFIRMAR TU CITA**.`
+*POR FAVOR ENVÍA EN UN MISMO TEXTO TODOS ESTOS DATOS PARA CONFIRMAR TU CITA*.`
   }
   static outOfOfficeHours(): string { return "Nuestro horario de atención en redes es de 10 a.m a 6:30 p.m de LUNES a SÁBADO. ¡Feliz día! 🌿"}
 
-  static infoLaminating(): string { return `Laminado de cejas MED
-El **Laminado de Cejas** 👀 es una técnica que permite engrosar, ordenar y direccionar el vello de tus cejas para crear un look de cejas pobladas, definidas y maquilladas (**aprox 1 mes y medio**).
-**Los precios ya incluyen el domicilio** 🛵.`
-  }
-  static infoLifting(): string {
-    return `El **Lifting de Pestañas** 👁 es un tratamiento que alarga y crea una curva hacia arriba de manera natural y duradera (**aprox 2 meses**), consiguiendo mayor longitud y un efecto pestañina.
+  static procedureInfo(procedureID: ProcedureIDs): string {
+    if (procedureID === ProcedureIDs.LAMI) {
+    return `El *Laminado de Cejas* 👀 es una técnica que permite engrosar, ordenar y direccionar el vello de tus cejas para crear un look de cejas pobladas, definidas y maquilladas (*aprox 1 mes y medio*).
+*Los precios ya incluyen el domicilio* 🛵.`;
+    } else if (procedureID === ProcedureIDs.LIFT) {
+    return `El *Lifting de Pestañas* 👁 es un tratamiento que alarga y crea una curva hacia arriba de manera natural y duradera (*aprox 2 meses*), consiguiendo mayor longitud y un efecto pestañina.
 
-**Los precios ya incluyen el domicilio** 🛵.`
+*Los precios ya incluyen el domicilio* 🛵.`;
+    } else {return "";}
   }
+
   static address(): string {
 
     return `📍Cra 64A #48-55
