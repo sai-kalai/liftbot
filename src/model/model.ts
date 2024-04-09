@@ -7,7 +7,7 @@
 
 
 export enum ConversationStates {
-    CITY = "City",  // Initial salutation, general information
+    INITIAL = "City",  // Initial salutation, general information
     MOTIVE= "Motive",  // Ask user if they need information or to set up an appointment
     INFO = "Info",  // Give user info about the procedures
     APPO = "Appointment",  // Set up an appointment with the user

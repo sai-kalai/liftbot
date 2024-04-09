@@ -1,5 +1,3 @@
-
-
 /**
  * This module defines classes and enums used for creating and managing button
  * messages in a WhatsApp API context. It allows for the creation of different
@@ -12,29 +10,28 @@ export enum ButtonTypes {
     CITY = "city",
     PROCEDURE = "procedure",
     APPO = "appo",
-    DEFAULT = "default"
+    DEFAULT = "default",
 }
-
 
 export enum MotiveIDs {
     INFO = "info",
-    APPO = "appo"
+    APPO = "appo",
 }
 
 export enum CityIDs {
     MED = "med",
-    BOG = "bog"
+    BOG = "bog",
 }
 
 export enum ProcedureIDs {
     LIFT = "lift",
     LAMI = "lami",
-    DEPI = "depi"
+    DEPI = "depi",
 }
 
 export enum AppointmentLocationIDs {
     ONSITE = "onsite",
-    DOMICILE = "domicile"
+    DOMICILE = "domicile",
 }
 
 /**
@@ -70,7 +67,6 @@ export class Button {
  * @property buttons - An array of Button instances.
  */
 export class ButtonsList {
-
     public static MOTIVE: Button[] = [
         new Button("Recibir información", MotiveIDs.INFO),
         new Button("Agendar una cita", MotiveIDs.APPO),
@@ -84,7 +80,7 @@ export class ButtonsList {
     public static PROCEDURE: Button[] = [
         new Button("Lifting", ProcedureIDs.LIFT),
         new Button("Laminado", ProcedureIDs.LAMI),
-        new Button("Depilación", ProcedureIDs.DEPI),
+        // new Button("Depilación", ProcedureIDs.DEPI),
     ];
 
     public static APPO: Button[] = [
@@ -93,7 +89,7 @@ export class ButtonsList {
     ];
 
     public type: ButtonTypes = ButtonTypes.DEFAULT;
-    public buttons: Button[] = [new Button("Default", "def"),];
+    public buttons: Button[] = [new Button("Default", "def")];
 
     /**
      * Creates a new ButtonsList instance.
@@ -116,8 +112,3 @@ export class ButtonsList {
         }
     }
 }
-
-
-
-
-
