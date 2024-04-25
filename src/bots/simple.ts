@@ -123,6 +123,7 @@ export class SimpleBot {
         // Handle the information state and send procedure information
         console.log("Handling info state");
         const procedureID = message.buttonReplyID as buttons.ProcedureIDs;
+        const file = `${procedureID}${procedureID == buttons.ProcedureIDs.DEPI ? "" : `_${this.city}`}.jpeg`
         const fileName = `${procedureID}_${this.city}.jpeg`;
         const mediaID = getFileMediaID(fileName);
         this.sender.sendTextMessage(

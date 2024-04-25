@@ -5,6 +5,7 @@
  * motives, cities, and procedures.
  */
 
+
 export enum ButtonTypes {
     MOTIVE = "motive",
     CITY = "city",
@@ -80,7 +81,7 @@ export class ButtonsList {
     public static PROCEDURE: Button[] = [
         new Button("Lifting", ProcedureIDs.LIFT),
         new Button("Laminado", ProcedureIDs.LAMI),
-        // new Button("Depilación", ProcedureIDs.DEPI),
+        new Button("Depilación", ProcedureIDs.DEPI),
     ];
 
     public static APPO: Button[] = [
