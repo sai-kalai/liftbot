@@ -64,7 +64,7 @@ export class SimpleBot {
    * Handles incoming messages and routes them based on their type.
    * @param {model.Message} message - The incoming message.
    */
-  async handleMessage(message: model.Message) {
+  handleMessage(message: model.Message) {
     console.log("Bot conversing with: ", this.recipientPhoneNumber);
     console.log("Bot is handling message: ", message);
 
@@ -123,9 +123,9 @@ export class SimpleBot {
         // Handle the information state and send procedure information
         console.log("Handling info state");
         const procedureID = message.buttonReplyID as buttons.ProcedureIDs;
-        const file = `${procedureID}${procedureID == buttons.ProcedureIDs.DEPI ? "" : `_${this.city}`}.jpeg`
-        const fileName = `${procedureID}_${this.city}.jpeg`;
-        const mediaID = getFileMediaID(fileName);
+        const file = `${procedureID}${procedureID == buttons.ProcedureIDs.DEPI ? "" : `_${this.city}`}.jpeg`;
+        console.log(`file: ${file}`)
+        const mediaID = getFileMediaID(file);
         this.sender.sendTextMessage(
           MessageTemplates.procedureInfo(procedureID),
           mediaID,
@@ -166,7 +166,7 @@ export class SimpleBot {
       this.resetToMotive();
     }
 
-    console.log("Bot is handling text message: ", message);
+    console.debug("Bot is handling text message: ", message);
 
     // Handle text messages based on the current conversation state
     switch (this.conversationState) {
