@@ -56,7 +56,7 @@ En un momento nos comunicaremos contigo para agendar la cita 😉.`
     } else if (procedureID === ProcedureIDs.LIFT) {
       return `El *Lifting de Pestañas* 👁 es un tratamiento que alarga y crea una curva hacia arriba de manera natural y duradera (*aprox 2 meses*), consiguiendo mayor longitud y un efecto pestañina.
 *Los precios ya incluyen el domicilio* 🛵.`;
-    } else { return ""; }
+    } else { return " "; }
   }
   static onsite(): string {
     return `Por favor déjanos estos datos para agendar tu cita 🧏🏻‍♀️:
