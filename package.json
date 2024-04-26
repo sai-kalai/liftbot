@@ -7,6 +7,7 @@
     "listen": "ts-node bin/webhooks.ts",
     "upload": "ts-node bin/upload-all.ts",
     "test": "ts-node bin/test.ts",
+    "deploy": "npm run upload && npm run listen",
     "msg-sender": "ts-node src/messaging/message-sender.ts"
   },
   "repository": {
