@@ -35,19 +35,22 @@ export async function httpPost(
     // Set the correct header depending on the case
     if (data instanceof FormData) {  // If data is a form
         Object.assign(headers, data.getHeaders());
-    } else { // If data is not a Form
+4    } else { // If data is not a Form
         headers["Content-Type"] = "application/json";
     }
     console.log("Preparing to make POST request...");
     console.log("URL: ", url);
-
     console.log("Data: ", data);
     try {
         const response = await axios.post(url, data, { headers });
-        console.log("Post request sent.");
-        console.log("   url: ", url);
-        console.log("   status code: ", response.status)
-        console.log("   body: ", response.data)
+        console.log("data payload seant in post request:");
+        console.log(JSON.stringify(data));
+        console.log("Printing response to post request:");
+        console.log(JSON.stringify(response.data));
+        // console.log("Post request sent.");
+        // console.log("   url: ", url);
+        // console.log("   status code: ", response.status)
+        // console.log("   body: ", response.data)
         return response
     } catch (error) {
         if (axios.isAxiosError(error)) {
@@ -64,12 +67,5 @@ export async function httpPost(
     }
 }
 
-
-export async function httpDelete(mediaID: string) {
-    const url = `${apiVersionUrl}/${mediaID}`;
-    const response = await axios.delete(url, {headers});
-
-    return response
-}
 
 
