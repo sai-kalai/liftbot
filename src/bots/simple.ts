@@ -97,7 +97,10 @@ export class SimpleBot {
         this.city = message.buttonReplyID;
         this.resetToMotive();
         break;
-      case ConversationStates.MOTIVE:
+      // i.e. main menu.
+      case (ConversationStates.MOTIVE ||
+        ConversationStates.INFO ||
+        ConversationStates.APPO):
         // Handle different motives and transition to the corresponding state
         if (message.buttonReplyID === buttons.MotiveIDs.INFO) {
           this.jumpToState(ConversationStates.INFO);
@@ -122,8 +125,15 @@ export class SimpleBot {
         break;
 
       case ConversationStates.INFO: {
-        // Handle the information state and send procedure information
-        console.log("Handling info state");
+        // feat: guard clause for the specific case when an user
+        // is at the procedure info stage and taps the set up
+        // appointment button i.e. after observing several
+        // procedures without the need to type the keyword to go
+        // back to the main menu.
+        if (message.buttonReplyID === buttons.MotiveIDs.APPO) {
+          // Handle the information state and send procedure information
+          console.log("Handling info state");
+        }
         const procedureID = message.buttonReplyID as buttons.ProcedureIDs;
         const file = `${procedureID}${
           procedureID == buttons.ProcedureIDs.DEPI ? "" : `_${this.city}`
