@@ -12,30 +12,35 @@ export class MessageTemplates {
     for (const methodName of Object.getOwnPropertyNames(this)) {
       // Use a type assertion to convince TypeScript that this is a method returning a string
       const method: () => string = (this as any)[methodName];
-      if (typeof method === 'function' && methodName !== 'showAllMessages') {
+      if (typeof method === "function" && methodName !== "showAllMessages") {
         messages.push(methodName, method());
       }
     }
-    return "Printing all message templates: \n" + messages.join('\n ------------- \n');
+    return "Printing all message templates: \n" +
+      messages.join("\n ------------- \n");
   }
   static motive(): string {
-    return `Este es el menú principal. Para volver acá en cualquier momento, solo debes escribir \"Inicio\"😜.
+    return `Este es el menú principal. *Para volver acá en cualquier momento, solo debes escribir \"Inicio\"*.
 ¿Cómo te puedo ayudar hoy?`;
   }
-  static info(): string { return "¿Qué procedimiento te interesa?" }
+  static info(): string {
+    return "¿Qué procedimiento te interesa?";
+  }
 
   static city(): string {
-    return `Hola, ¿cómo estás? Mi nombre es LauBot 🤖 y soy tu asistente virtual. Para mí será un gusto ayudarte 👩🏻.
-Para empezar dime, ¿en qué ciudad te encuentras?`
+    return `Hola, ¿cómo estás? Mi nombre es LauBot 🤖 y soy tu asistente virtual. Para mí será un gusto ayudarte 👩.
+Para empezar dime, ¿en qué ciudad te encuentras?`;
   }
   static appointmentLocation(): string {
     return "¿Deseas que la cita sea en el local o a domicilio?";
   }
   // Requesting information for setting up an appointment
   static setupAppointment(cityID: string): string {
-    return `Por favor déjanos estos datos para agendar tu cita 🧏🏻‍♀️${(cityID === CityIDs.MED) ?
-      ", recuerda que si estás por fuera del distrito de Medellín tiene un costo adicional de $10.000." :
-      "."}
+    return `Por favor déjanos estos datos para agendar tu cita 🧏🏻‍♀️${
+      (cityID === CityIDs.MED)
+        ? ", recuerda que si estás por fuera del distrito de Medellín tiene un costo adicional de $10.000."
+        : "."
+    }
 - Ciudad:
 - Barrio:
 - Dirección completa:
@@ -45,9 +50,11 @@ Para empezar dime, ¿en qué ciudad te encuentras?`
 - Servicio(s) que recibirá cada persona:
 
 *POR FAVOR ENVÍA EN UN MISMO TEXTO TODOS ESTOS DATOS PARA CONFIRMAR TU CITA*.
-En un momento nos comunicaremos contigo para agendar la cita 😉.`
+En un momento nos comunicaremos contigo para agendar la cita 😉.`;
   }
-  static outOfOfficeHours(): string { return "Nuestro horario de atención en redes es de 10 a.m a 6:30 p.m de LUNES a SÁBADO. ¡Feliz día! 🌿" }
+  static outOfOfficeHours(): string {
+    return "Nuestro horario de atención en redes es de 10 a.m a 6:30 p.m de LUNES a SÁBADO. ¡Feliz día! 🌿";
+  }
 
   static procedureInfo(procedureID: ProcedureIDs): string {
     if (procedureID === ProcedureIDs.LAMI) {
@@ -56,30 +63,13 @@ En un momento nos comunicaremos contigo para agendar la cita 😉.`
     } else if (procedureID === ProcedureIDs.LIFT) {
       return `El *Lifting de Pestañas* 👁 es un tratamiento que alarga y crea una curva hacia arriba de manera natural y duradera (*aprox 2 meses*), consiguiendo mayor longitud y un efecto pestañina.
 *Los precios ya incluyen el domicilio* 🛵.`;
-    } else { return " "; }
+    } else if (procedureID === ProcedureIDs.DEPI) {
+      return " ";
+    } else {
+            return "  ";  //  FIX: Indidious bug: function will be called even if none of the enum variants are satisfied... handle maybe undefined return.
+        }
   }
   static onsite(): string {
-    return `Por favor déjanos estos datos para agendar tu cita 🧏🏻‍♀️:
-  - Hora y fecha tentativas:
-  - Nombre y número de contacto:
-  - # de personas:
-  - Servicio(s) que recibirá cada persona:
-
-Recuerda tener en cuenta:
-  🌿 Casi siempre hay una cita anterior y una siguiente. ¡Sé puntual⌚! si llegas más de 15 minutos tarde, no podré atenderte y tendremos que reagendar la cita.
-  🌿 SOLO SE LLEGA AL LOCAL CON CITA AGENDADA.
-
-*POR FAVOR ENVÍA EN UN MISMO TEXTO TODOS ESTOS DATOS PARA CONFIRMAR TU CITA*.
-
-En un momento nos comunicaremos contigo para agendar la cita 😉.
-
-La dirección del local es:
-
-📍Cra 64A #48-55
-Apto 702
-Edificio Suramericana 8
-Medellín, barrio Suramericana`}
+    return `Espera un momento para agendar tu cita.\nPor favor dinos la fecha y hora tentativas y en un momento nos comunicaremos contigo 🌿😊`;
+  }
 }
-
-
-
