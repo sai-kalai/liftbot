@@ -14,7 +14,7 @@ import bodyParser from 'body-parser';
 
 import { MessageSender } from '@messaging/message-sender';
 import { SimpleBot } from '@src/bots/simple'
-import { ButtonsMessage, Message } from '@src/model/model';
+import { ButtonReply, Message } from '@src/model/model';
 const PORT = process.env.PORT || 1337;
 console.log(`Port obtained from .env: ${PORT} (if undefined, will default to 1337)`);
 const app = express();
@@ -42,7 +42,7 @@ function verifyRequest(req: Request): Message | undefined {// TODO: Use option m
 Text content: ${messageBody}`);
     // console.log("Full content: ", JSON.stringify(req.body, null, 4));
     if (buttonReply) {
-        const theMessage: ButtonsMessage = {
+        const theMessage: ButtonReply = {
             type: "buttons",
             senderNumber: fromNumber,
             textContent: buttonReplyText,

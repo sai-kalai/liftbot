@@ -69,7 +69,7 @@ export class SimpleBot {
     console.log("Bot is handling message: ", message);
 
     if (message.type === "text") this.handleTextMessage(message);
-    else if (message.type === "buttons") this.handleButtonsMessage(message);
+    else if (message.type === "buttons") this.handleButtonReply(message);
   }
 
   /**
@@ -87,9 +87,9 @@ export class SimpleBot {
    * Handles button message interactions. Based on the current conversation state,
    * it processes the button reply, stores relevant information, advances the conversation,
    * and sends appropriate follow-up messages.
-   * @param {model.ButtonsMessage} message - The button message to handle.
+   * @param {model.ButtonReply} message - The button message to handle.
    */
-  handleButtonsMessage(message: model.ButtonsMessage) {
+  handleButtonReply(message: model.ButtonReply) {
     switch (this.conversationState) {
       // Handle each conversation state separately
       case ConversationStates.INITIAL:
@@ -114,7 +114,9 @@ export class SimpleBot {
               new ButtonsList(ButtonTypes.APPO),
             );
           } else if (this.city === buttons.CityIDs.BOG) {
-            this.sender.sendTextMessage(MessageTemplates.setupAppointment(buttons.CityIDs.BOG));
+            this.sender.sendTextMessage(
+              MessageTemplates.setupAppointment(buttons.CityIDs.BOG),
+            );
           }
         }
         break;
@@ -123,8 +125,10 @@ export class SimpleBot {
         // Handle the information state and send procedure information
         console.log("Handling info state");
         const procedureID = message.buttonReplyID as buttons.ProcedureIDs;
-        const file = `${procedureID}${procedureID == buttons.ProcedureIDs.DEPI ? "" : `_${this.city}`}.jpeg`;
-        console.log(`file: ${file}`)
+        const file = `${procedureID}${
+          procedureID == buttons.ProcedureIDs.DEPI ? "" : `_${this.city}`
+        }.jpeg`;
+        console.log(`file: ${file}`);
         const mediaID = getFileMediaID(file);
         this.sender.sendTextMessage(
           MessageTemplates.procedureInfo(procedureID),

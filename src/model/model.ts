@@ -24,11 +24,11 @@ export type TextMessage = {
     textContent: string;
 }
 
-export type ButtonsMessage = {
+export type ButtonReply = {
     type?: "buttons";
     senderNumber: string;
     buttonReplyID: string;
     textContent: string;
 }
 
-export type Message = TextMessage | ButtonsMessage;
+export type Message = TextMessage | ButtonReply;
